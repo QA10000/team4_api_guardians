@@ -6,10 +6,13 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-	    features = "src/test/resources/features", // Location of the feature files
-	    glue = {"com.lms.hooks", "com.lms.stepdefinitions"}, // Location of the step definition classes
-	    plugin = {"pretty", "html:target/cucumber-reports.html"
-	    		}
+	    features = "src/test/resources/features",
+	    glue = {"com.lms.hooks", "com.lms.stepdefinitions"},
+	    plugin = {"pretty", "html:target/cucumber-reports.html",
+				"json:target/cucumber-reports/cucumber.json"
+	    		},
+		monochrome = true,
+		dryRun = false
 			)
 public class TestRunner {
 }
