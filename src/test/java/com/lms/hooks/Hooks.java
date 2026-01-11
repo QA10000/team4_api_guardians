@@ -15,7 +15,6 @@ public class Hooks {
 
         request = given()
                 .baseUri(ConfigManager.get("baseUrl"))
-                .header("Authorization", "Bearer " + ConfigManager.get("token"))
                 .header("Content-Type", "application/json");
         requestSpec.set(request);
     }

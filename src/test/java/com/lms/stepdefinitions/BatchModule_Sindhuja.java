@@ -15,7 +15,7 @@ public class BatchModule_Sindhuja {
     }
     @Given("Admin creates GET Request with valid Batch ID")
     public void adminCreatesGETRequestWithValidBatchID() {
-        batchModule.createGetBatchRequest("Valid Batch ID Generic");
+        batchModule.prepareBatchRequest("Get Valid Batch ID Generic");
         
     }
 
@@ -25,7 +25,27 @@ public class BatchModule_Sindhuja {
     }
 
     @Then("Admin receives {int} OK Status with response body.")
-    public void adminReceivesOKStatusWithResponseBody(int arg0) {
-        batchModule.validateSuccessResponse(200);
+    public void adminReceivesOKStatusWithResponseBody(int statusCode) {
+        batchModule.validateSuccessResponse(statusCode);
+    }
+
+    @Given("Admin creates DELETE Request with valid BatchId")
+    public void adminCreatesDELETERequestWithValidBatchId() {
+        batchModule.prepareBatchRequest("Delete Valid Batch ID Generic");
+    }
+
+    @Given("Admin creates GET Request with valid Batch Name")
+    public void adminCreatesGETRequestWithValidBatchName() {
+        batchModule.prepareBatchRequest("Get Valid Batch Name Generic");
+    }
+
+    @Given("Admin creates GET Request with valid Program Id")
+    public void adminCreatesGETRequestWithValidProgramId() {
+        batchModule.prepareBatchRequest("Get Valid Program ID Generic");
+    }
+
+    @Given("Admin sets Authorization to Bearer Token.")
+    public void adminSetsAuthorizationToBearerToken() {
+        batchModule.setBearerAuthorization();
     }
 }
