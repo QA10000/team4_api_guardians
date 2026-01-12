@@ -48,4 +48,14 @@ public class BatchModule_Sindhuja {
     public void adminSetsAuthorizationToBearerToken() {
         batchModule.setBearerAuthorization();
     }
+
+    @Given("Admin creates PUT Request with valid BatchId and Data")
+    public void adminCreatesPUTRequestWithValidBatchIdAndData() {
+        batchModule.prepareBatchRequest("Put Valid Batch ID Generic");
+    }
+
+    @Then("Admin receives {int} OK Status with updated value in response body.")
+    public void adminReceivesOKStatusWithUpdatedValueInResponseBody(int statusCode) {
+        batchModule.validateResponseWithUpdatedValues(statusCode,"Put Valid Batch ID Generic");
+    }
 }
