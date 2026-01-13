@@ -6,9 +6,10 @@ import com.lms.utils.ConfigManager;
 import com.lms.utils.ExcelReader;
 import io.restassured.response.Response;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 public class BatchModule {
 
@@ -105,7 +106,7 @@ public class BatchModule {
         }
     }
 
-    public void validateSuccessResponse(int expectedStatusCode) {
+    public void validateResponseCode(int expectedStatusCode) {
 
         response.then().statusCode(expectedStatusCode);
         System.out.println("Response Body:\n" + response.asPrettyString());
@@ -121,5 +122,34 @@ public class BatchModule {
                 .body("programName", equalTo(batchData.get("Program Name")))
                 .body("batchNoOfClasses", equalTo(Integer.parseInt(batchData.get("Batch No of Classes"))));
         System.out.println("Response Body:\n" + response.asPrettyString());
+    }
+
+    public void validateResponseField(int expectedStatus, String fieldName, String expectedValue)
+    {
+        response.then().statusCode(expectedStatus);
+        Object responseBody = response.as(Object.class);
+
+        if (responseBody instanceof List) {
+            // Array response
+            response.then().body(fieldName, hasItem(expectedValue));
+        } else {
+            // Object response
+            response.then().body(fieldName, equalTo(expectedValue));
+        }
+
+        System.out.println("Response Body:\n" + response.asPrettyString());
+    }
+
+    public void validateNegativeResponse(int expStatusCode, String testCaseId)
+    {
+        batchData = ExcelReader.getRowByTestCaseId(filepath, SHEET_NAME, testCaseId);
+        String invalidBatchId = batchData.get("Batch ID");
+        response.then()
+                .statusCode(expStatusCode)
+                .body("message", containsString(invalidBatchId))
+                .body("success", equalTo(false));
+
+        System.out.println("Response Body:\n" + response.asPrettyString());
+
     }
 }
