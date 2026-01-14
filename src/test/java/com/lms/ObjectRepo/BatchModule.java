@@ -140,13 +140,14 @@ public class BatchModule {
         System.out.println("Response Body:\n" + response.asPrettyString());
     }
 
-    public void validateNegativeResponse(int expStatusCode, String testCaseId)
+    public void validateNegativeResponse(int expStatusCode, String expStatusText, String testCaseId)
     {
         batchData = ExcelReader.getRowByTestCaseId(filepath, SHEET_NAME, testCaseId);
-        String invalidBatchId = batchData.get("Batch ID");
+        String errorValue = batchData.get("Error Value");
         response.then()
                 .statusCode(expStatusCode)
-                .body("message", containsString(invalidBatchId))
+                .statusLine(containsString(expStatusText))
+                .body("message", containsString(errorValue))
                 .body("success", equalTo(false));
 
         System.out.println("Response Body:\n" + response.asPrettyString());

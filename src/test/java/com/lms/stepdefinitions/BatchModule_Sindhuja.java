@@ -38,24 +38,10 @@ public class BatchModule_Sindhuja {
         batchModule.setBearerAuthorization();
     }
 
-    @Given("Admin creates PUT Request with valid BatchId and Data")
-    public void adminCreatesPUTRequestWithValidBatchIdAndData() {
-        batchModule.prepareBatchRequest("Put Valid Batch ID Generic");
-    }
-
-    @Then("Admin receives {int} OK Status with updated value in response body.")
-    public void adminReceivesOKStatusWithUpdatedValueInResponseBody(int statusCode) {
-        batchModule.validateResponseWithUpdatedValues(statusCode,"Put Valid Batch ID Generic");
-    }
 
     @Then("Admin receives {int} OK Status with  {string} field {string} in the response body.")
     public void adminReceivesOKStatusWithFieldInTheResponseBody(int statusCode, String field, String value) {
         batchModule.validateResponseField(statusCode,field,value);
-    }
-
-    @Then("Admin receives {int} Not Found Status with message and boolean success details")
-    public void adminReceivesNotFoundStatusWithMessageAndBooleanSuccessDetails(int statusCode) {
-        batchModule.validateNegativeResponse(statusCode,"Get Invalid Batch ID");
     }
 
     @Then("Admin receives {int} not found  Status")
@@ -73,8 +59,24 @@ public class BatchModule_Sindhuja {
         batchModule.prepareBatchRequest(tcID);
     }
 
-    @Then("Admin receives {int} Not Found Status with message and boolean success details for {string}")
-    public void adminReceivesNotFoundStatusWithMessageAndBooleanSuccessDetailsFor(int statusCode, String tcID) {
-        batchModule.validateNegativeResponse(statusCode, tcID);
+//    @Then("Admin receives {int} Not Found Status with message and boolean success details for {string}")
+//    public void adminReceivesNotFoundStatusWithMessageAndBooleanSuccessDetailsFor(int statusCode, String tcID) {
+//        batchModule.validateNegativeResponse(statusCode, tcID);
+//    }
+
+
+    @Given("Admin creates PUT Request with {string}")
+    public void adminCreatesPUTRequestWith(String tcID) {
+        batchModule.prepareBatchRequest(tcID);
+    }
+
+    @Then("Admin receives {int} OK Status with updated value in response body for {string}")
+    public void adminReceivesOKStatusWithUpdatedValueInResponseBodyFor(int statusCode, String tcID) {
+        batchModule.validateResponseWithUpdatedValues(statusCode,tcID);
+    }
+
+    @Then("Admin receives {int} {string} Status with message and boolean success details for {string}")
+    public void adminReceivesStatusWithMessageAndBooleanSuccessDetailsFor(int statusCode, String statusText, String tcID) {
+        batchModule.validateNegativeResponse(statusCode,statusText,tcID);
     }
 }
