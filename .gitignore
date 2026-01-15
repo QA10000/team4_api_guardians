@@ -1,1 +1,7 @@
+
+/target/*
+.vscode/*
+.qodo/*
 /target/
+# Test data
+src/test/resources/testdata/testdata.xlsx

@@ -24,5 +24,4 @@ public class ConfigManager {
     public static String get(String key) {
         return properties.getProperty(key);
     }
-
 }
