@@ -32,7 +32,6 @@ public class Hooks {
         
         RestAssured.requestSpecification = spec;
 
-
     // Set ThreadLocal so getRequest() works
         requestSpec.set(spec);
     }
