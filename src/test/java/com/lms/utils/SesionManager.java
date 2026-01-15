@@ -1,6 +1,6 @@
 package com.lms.utils;
 
-public class TokenManager {
+public class SesionManager {
     private static String authToken;
     
 

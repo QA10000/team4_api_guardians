@@ -1,33 +1,27 @@
 package com.lms.utils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigManager {
-    private static final Properties props = new Properties();
+
+    private static Properties properties = new Properties();
 
     static {
-        try (InputStream in = ConfigManager.class.getClassLoader().getResourceAsStream("config/config.properties")) {
-            if (in != null) {
-                props.load(in);
-            } else {
-                throw new RuntimeException("config.properties not found in classpath under config/");
+        try (InputStream is = ConfigManager.class
+                .getClassLoader()
+                .getResourceAsStream("config/config.properties")) {
+
+            if (is == null) {
+                throw new RuntimeException("config/config.properties not found in classpath");
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load configuration", e);
+            properties.load(is);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public static String get(String key) {
-        String sys = System.getProperty(key);
-        if (sys != null && !sys.isBlank()) return sys;
-        String env = System.getenv(key);
-        if (env != null && !env.isBlank()) return env;
-        return props.getProperty(key);
-    }
-
-    public static String getBaseUrl() {
-        return get("baseUrl");
+        return properties.getProperty(key);
     }
 }

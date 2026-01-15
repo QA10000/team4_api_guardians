@@ -3,6 +3,7 @@ package com.lms.utils;
 import io.restassured.response.Response;
 
 public class TestContext {
+    //These variables related to UserLogin Module
     private Response lastResponse;
     private String email;
     private String password;
@@ -58,4 +59,3 @@ public class TestContext {
         this.expectedStatus = expectedStatus;
     }
 }
-

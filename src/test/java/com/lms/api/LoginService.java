@@ -1,4 +1,4 @@
-package com.lms.ObjectRepo;
+package com.lms.api;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -11,7 +11,7 @@ import com.lms.utils.ConfigManager;
 import com.lms.utils.ExcelReader;
 import com.lms.utils.RestAssuredUtil;
 import com.lms.utils.TestContext;
-import com.lms.utils.TokenManager;
+import com.lms.utils.SesionManager;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -47,7 +47,7 @@ public class LoginService {
         if (context.getLastResponse().statusCode() == 200) {
             String token = context.getLastResponse().jsonPath().getString("token");
             assertNotNull(token, "Token is missing in response");
-            TokenManager.saveToken(token);
+            SesionManager.saveToken(token);
         }
     }
 
@@ -98,7 +98,7 @@ public class LoginService {
     public void assertTokenGenerated() {
         assertNotNull("No response captured", context.getLastResponse());
         assertEquals("Expected 200 on login", 200, context.getLastResponse().statusCode());
-        assertTrue("Token not saved in TokenManager", TokenManager.hasToken());
+        assertTrue("Token not saved in TokenManager", SesionManager.hasToken());
     }
 
     public void assertStatusCodeWithMessage(Integer expectedStatusCode, String expectedMessage) {
@@ -112,5 +112,17 @@ public class LoginService {
         assertEquals("Expected " + expectedStatusCode + " status code",
                 expectedStatusCode.intValue(), context.getLastResponse().statusCode());
         assertEquals("Expected message", message, context.getLastResponse().jsonPath().getString("message"));
+    }
+
+    public void makeForgotPwdRequestWithMethod(String method) {
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setUserLoginEmailId(context.getEmail());
+        try {
+            Response response = RestAssuredUtil.makeRequest(method, context.getContentType(), loginRequest,
+                    context.getEndPoint());
+            context.setLastResponse(response);
+        } catch (Exception e) {
+            System.out.println("Error: Failed to call " + method + " HTTPS method.");
+        }
     }
 }

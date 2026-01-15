@@ -7,7 +7,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
 import com.lms.utils.ConfigManager;
-import com.lms.utils.TokenManager;
+import com.lms.utils.SesionManager;
 
 public class Hooks {
 
@@ -18,15 +18,15 @@ public class Hooks {
     public void setUp(Scenario scenario) {
 
         RequestSpecification spec = new RequestSpecBuilder()
-                .setBaseUri(ConfigManager.getBaseUrl())
+                .setBaseUri(ConfigManager.get("baseUrl"))
                 .setRelaxedHTTPSValidation()
                 .setContentType("application/json")
                 .build();
     
         boolean skipAuth = scenario.getSourceTagNames().contains("@skipAuth");
 
-        if (!skipAuth && TokenManager.hasToken()) {
-            String token = TokenManager.getToken();
+        if (!skipAuth && SesionManager.hasToken()) {
+            String token = SesionManager.getToken();
             spec = spec.header("Authorization", "Bearer " + token);
         }
         
@@ -36,7 +36,7 @@ public class Hooks {
         requestSpec.set(spec);
     }
     
-    public static RequestSpecification getRequest() {
-        return requestSpec.get();
-    }
+    // public static RequestSpecification getRequest() {
+    //     return requestSpec.get();
+    // }
 }
