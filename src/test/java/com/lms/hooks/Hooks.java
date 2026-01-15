@@ -3,10 +3,10 @@ package com.lms.hooks;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 
-import com.lms.utils.RequestSpecBuilderUtil;
-import com.lms.utils.ResponseSpecBuilderUtil;
+import com.lms.utils.ConfigManager;
 import com.lms.utils.TokenManager;
 
 public class Hooks {
@@ -16,20 +16,28 @@ public class Hooks {
     
     @Before
     public void setUp(Scenario scenario) {
-        RequestSpecification spec = RequestSpecBuilderUtil.defaultRequestSpec();
-    //     if (scenario.getSourceTagNames().contains("@skipAuth")) {
-    //     return;
-    // }  else {      
-        if (TokenManager.hasToken()) {
+
+        RequestSpecification spec = new RequestSpecBuilder()
+                .setBaseUri(ConfigManager.getBaseUrl())
+                .setRelaxedHTTPSValidation()
+                .setContentType("application/json")
+                .build();
+    
+        boolean skipAuth = scenario.getSourceTagNames().contains("@skipAuth");
+
+        if (!skipAuth && TokenManager.hasToken()) {
             String token = TokenManager.getToken();
             spec = spec.header("Authorization", "Bearer " + token);
         }
         
         RestAssured.requestSpecification = spec;
-        RestAssured.responseSpecification = ResponseSpecBuilderUtil.defaultResponseSpec();
+
+
+    // Set ThreadLocal so getRequest() works
+        requestSpec.set(spec);
     }
     
-   
+    public static RequestSpecification getRequest() {
+        return requestSpec.get();
+    }
 }
-
-
