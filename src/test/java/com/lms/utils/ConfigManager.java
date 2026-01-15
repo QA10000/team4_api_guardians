@@ -25,4 +25,8 @@ public class ConfigManager {
         return properties.getProperty(key);
     }
 
+    public static String getBaseUrl() {
+        return get("baseUrl");
+    }
+
 }

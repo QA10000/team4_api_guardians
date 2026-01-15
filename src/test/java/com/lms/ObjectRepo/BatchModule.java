@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class BatchModule {
@@ -23,10 +24,6 @@ public class BatchModule {
 
     private Map<String, String> batchData;
 
-    public void setBearerAuthorization() {
-
-        Hooks.getRequest().header("Authorization", "Bearer " + ConfigManager.get("token"));
-    }
     public void prepareBatchRequest(String testCaseId) {
 
         batchData = ExcelReader.getRowByTestCaseId(filepath, SHEET_NAME, testCaseId);
@@ -78,21 +75,24 @@ public class BatchModule {
         switch (method.toUpperCase()) {
 
             case "GET":
-                response = Hooks.getRequest()
+                response = given()
+                        .spec(Hooks.getRequest())
                         .pathParams(pathParams)
                         .when()
                         .get(endpoint);
                 break;
 
             case "DELETE":
-                response = Hooks.getRequest()
+                response = given()
+                        .spec(Hooks.getRequest())
                         .pathParams(pathParams)
                         .when()
                         .delete(endpoint);
                 break;
 
             case "PUT":
-                response = Hooks.getRequest()
+                response = given()
+                        .spec(Hooks.getRequest())
                         .pathParams(pathParams)
                         .body(requestBody)
                         .when()
@@ -100,11 +100,10 @@ public class BatchModule {
                 break;
 
             default:
-                throw new IllegalArgumentException(
-                        "Unsupported HTTP Method: " + method
-                );
+                throw new IllegalArgumentException("Unsupported HTTP Method: " + method);
         }
     }
+
 
     public void validateResponseCode(int expectedStatusCode) {
 

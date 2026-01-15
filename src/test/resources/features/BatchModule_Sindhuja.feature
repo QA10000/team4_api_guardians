@@ -1,8 +1,7 @@
 Feature: Batch Module
 
-  Background:
-  Given Admin sets Authorization to Bearer Token.
 ## -- GET Request -- ##
+
   Scenario Outline:  Check if admin able to retrieve a batch with valid "<TestCase ID>"
     Given Admin creates GET Request with "<TestCase ID>"
     When Admin sends HTTPS Request with endpoint
