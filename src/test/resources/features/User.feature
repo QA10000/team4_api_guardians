@@ -70,7 +70,7 @@ Feature: User Module for LMS API
  
  Scenario: Check if admin able to update a admin with valid admin ID and missing mandatory fields request body 
     Given Admin creates PUT Request "TC11"
-    When Admin sends HTTPS Request  and request Body  (missing mandatory fields)                                                                                                                       
+    When Admin sends HTTPS Request  and requesdUt Body  (missing mandatory fields)                                                                                                                       
     Then Admin receives 400 Bad Request Status with message and boolean success details   
                                                            
 
@@ -99,7 +99,17 @@ Feature: User Module for LMS API
     When Admin sends HTTPS Request to get user with program ID    #(Mandatory : program Id, batch Id ,role id, admin id, admin role program batch status)                                                                                                                                             
     Then Admin receives 200 Ok Status with response message  "user ID successfully assigned to Program/Batch"  
  
+   #--------------- DELETE OPERATION (Assign  by userID) ------------------------  
  
+ Scenario: Check if admin able to delete a admin with valid admin Id 
+    Given Admin creates DELETE Request for the LMS API endpoint  and  valid admin ID test case "TC16"
+    When Admin sends HTTPS Request to delete your by valid user ID                                                                                                                                                                             
+    Then Admin receives 200 Ok status with message 
+    
+ Scenario: Check if admin able to delete a admin with valid LMS API,invalid admin Id
+    Given Admin creates DELETE Request for the LMS API endpoint  and  invalid {admin ID} test case "TC16"
+    When Admin sends HTTPS Request to delete your by Invalid user ID                                                                                                                                                                               
+    Then Admin receives 404 Not Found Status with message and boolean success details
  
  
  
