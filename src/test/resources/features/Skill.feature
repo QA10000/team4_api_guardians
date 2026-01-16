@@ -4,11 +4,6 @@ Feature: Skill Module for LMS API
 
 #--------------- POST OPERATION ----------------
 
-Scenario: Check if admin able to generate token with valid credential
-    Given Admin creates request with valid credentials for UserLogin test case "TC01"
-    When Admin calls Post Https method with valid endpoint
-    Then Admin receives 201 created with auto generated token
-
 Scenario: Check if admin able to create a New Skill Master with valid endpoint and request body (non existing values)
    Given Admin creates POST Request for New Skill Master for the LMS API endpoint "TC01"
    When Admin sends HTTPS Request and request Body with mandatory fields for New Skill Master                                                                                   
