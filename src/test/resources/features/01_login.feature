@@ -5,10 +5,10 @@ Feature: User Login Controller
     Background: Admin sets no Authorization to Bearer Token.
       Given admin sets no Authorization to Bearer Token
 
-    # Scenario: Check if admin able to generate token with invalid method
-    #   Given Admin creates request with valid credentials for UserLogin test case "TC02"
-    #   When Admin calls GET Https method with post endpoint
-    #   Then Admin receives 405 method not allowed
+    Scenario: Check if admin able to generate token with invalid method
+      Given Admin creates request with valid credentials for UserLogin test case "TC02"
+      When Admin calls GET Https method with post endpoint
+      Then Admin receives 405 method not allowed
 
     Scenario: Check if admin able to generate token with invalid base URL
       Given Admin creates request with valid credentials for UserLogin test case "TC03"

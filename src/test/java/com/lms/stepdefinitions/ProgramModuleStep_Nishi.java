@@ -3,6 +3,8 @@ package com.lms.stepdefinitions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import com.lms.ObjectRepo.ProgramModule;
+import com.lms.utils.TestContext;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -15,8 +17,8 @@ public class ProgramModuleStep_Nishi {
 	String endpoint;
 	String requestBody;
 
-	public ProgramModuleStep_Nishi() {
-		programModule = new ProgramModule();
+	public ProgramModuleStep_Nishi(TestContext context) {
+		programModule = new ProgramModule(context);
 	}
 
 	@Given("Admin creates POST Request for the LMS with request body for program module")

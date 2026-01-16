@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hamcrest.Matcher;
 import org.junit.Assert;
 
 import com.lms.hooks.Hooks;
@@ -13,11 +12,7 @@ import com.lms.utils.ConfigManager;
 import com.lms.utils.ExcelReader;
 import com.lms.utils.TestContext;
 
-import io.restassured.matcher.ResponseAwareMatcher;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.*;
 
 public class ProgramModule {
@@ -31,8 +26,11 @@ private ProgramRequest requestBody;
 
 
 private Map<String, String> batchData;
+private final TestContext context;
 
-
+    public ProgramModule(TestContext context) {
+        this.context = context;
+    }
 
 
 
@@ -174,7 +172,7 @@ public void validateResponseCode(int expectedStatusCode) {
 
 public void assertStatusCode(int expectedCode) {
     try {
-        response = TestContext.getLastResponse();
+        response = context.getLastResponse();
     } catch (Exception e) {
         e.printStackTrace();
     }
