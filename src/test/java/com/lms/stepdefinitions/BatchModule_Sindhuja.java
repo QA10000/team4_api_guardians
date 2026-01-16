@@ -33,12 +33,6 @@ public class BatchModule_Sindhuja {
         batchModule.prepareBatchRequest("Get Valid Program ID Generic");
     }
 
-    @Given("Admin sets Authorization to Bearer Token.")
-    public void adminSetsAuthorizationToBearerToken() {
-        batchModule.setBearerAuthorization();
-    }
-
-
     @Then("Admin receives {int} OK Status with  {string} field {string} in the response body.")
     public void adminReceivesOKStatusWithFieldInTheResponseBody(int statusCode, String field, String value) {
         batchModule.validateResponseField(statusCode,field,value);
@@ -59,12 +53,6 @@ public class BatchModule_Sindhuja {
         batchModule.prepareBatchRequest(tcID);
     }
 
-//    @Then("Admin receives {int} Not Found Status with message and boolean success details for {string}")
-//    public void adminReceivesNotFoundStatusWithMessageAndBooleanSuccessDetailsFor(int statusCode, String tcID) {
-//        batchModule.validateNegativeResponse(statusCode, tcID);
-//    }
-
-
     @Given("Admin creates PUT Request with {string}")
     public void adminCreatesPUTRequestWith(String tcID) {
         batchModule.prepareBatchRequest(tcID);
@@ -78,5 +66,25 @@ public class BatchModule_Sindhuja {
     @Then("Admin receives {int} {string} Status with message and boolean success details for {string}")
     public void adminReceivesStatusWithMessageAndBooleanSuccessDetailsFor(int statusCode, String statusText, String tcID) {
         batchModule.validateNegativeResponse(statusCode,statusText,tcID);
+    }
+
+    @Then("Admin receives {int} Status with error message unauthorized.")
+    public void adminReceivesStatusWithErrorMessageUnauthorized(int statusCode) {
+        batchModule.validateResponseCode(statusCode);
+    }
+
+    @Given("Admin creates GET Request for {string}with search string {string} and {string}")
+    public void adminCreatesGETRequestForWithSearchStringAnd(String tcID, String key, String value) {
+        batchModule.prepareBatchRequestWithQryParam(tcID, key, value);
+    }
+
+    @Given("Admin creates POST Request with {string}")
+    public void adminCreatesPOSTRequestWith(String tcID) {
+        batchModule.prepareBatchRequest(tcID);
+    }
+
+    @Then("Admin receives {int} Created Status with response body.")
+    public void adminReceivesCreatedStatusWithResponseBody(int statusCode) {
+        batchModule.validatePostBatchResponse(statusCode);
     }
 }

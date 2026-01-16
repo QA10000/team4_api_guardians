@@ -68,6 +68,26 @@ public class BatchModule {
             requestBody.setBatchNoOfClasses(batchData.get("Batch No of Classes"));
         }
 
+        if ("POST".equalsIgnoreCase(method)) {
+
+            requestBody = new BatchRequest();
+            requestBody.setBatchName(batchData.get("Batch Name"));
+            requestBody.setBatchStatus(batchData.get("Batch Status"));
+            requestBody.setProgramId(batchData.get("Program ID"));
+            requestBody.setBatchNoOfClasses(batchData.get("Batch No of Classes"));
+        }
+
+    }
+
+    public void prepareBatchRequestWithQryParam (String testCaseId, String Key, String Value)
+    {
+        batchData = ExcelReader.getRowByTestCaseId(filepath, SHEET_NAME, testCaseId);
+        endpoint = batchData.get("Endpoint");
+        method = batchData.get("Request Type");
+        if (method == null || method.isEmpty()) {
+            throw new RuntimeException("HTTP Method missing for TestCase ID: " + testCaseId);
+        }
+        Hooks.request = Hooks.getRequest().queryParam(Key, Value);
     }
 
     public void sendGetBatchRequest() {
@@ -97,6 +117,14 @@ public class BatchModule {
                         .body(requestBody)
                         .when()
                         .put(endpoint);
+                break;
+
+            case "POST":
+                response = given()
+                        .spec(Hooks.getRequest())
+                        .body(requestBody)
+                        .when()
+                        .post(endpoint);
                 break;
 
             default:
@@ -151,5 +179,18 @@ public class BatchModule {
 
         System.out.println("Response Body:\n" + response.asPrettyString());
 
+    }
+
+    public void validatePostBatchResponse(int expStatusCode)
+    {
+        response.then().statusCode(expStatusCode);
+        String responseBody = response.getBody().asString();
+        if (responseBody.contains("batchId")) {
+            String batchId = response.jsonPath().getString("batchId");
+            if (batchId == null || batchId.isEmpty()) {
+                throw new AssertionError("batchId is missing in response");
+            }
+        }
+        System.out.println("Response Body:\n" + response.asPrettyString());
     }
 }
