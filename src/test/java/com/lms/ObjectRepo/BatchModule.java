@@ -4,6 +4,7 @@ import com.lms.hooks.Hooks;
 import com.lms.pojo.BatchRequest;
 import com.lms.utils.ConfigManager;
 import com.lms.utils.ExcelReader;
+import com.lms.utils.TokenManager;
 import io.restassured.response.Response;
 import java.util.HashMap;
 import java.util.List;
@@ -190,6 +191,7 @@ public class BatchModule {
             if (batchId == null || batchId.isEmpty()) {
                 throw new AssertionError("batchId is missing in response");
             }
+            TokenManager.saveBatchId(batchId);
         }
         System.out.println("Response Body:\n" + response.asPrettyString());
     }

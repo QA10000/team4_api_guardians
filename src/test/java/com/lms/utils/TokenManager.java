@@ -2,6 +2,7 @@ package com.lms.utils;
 
 public class TokenManager {
     private static String authToken;
+    private static String newBatchId;
 
 
     public static void saveToken(String token) {
@@ -23,4 +24,10 @@ public class TokenManager {
         authToken = null;
         System.out.println("Token cleared");
     }
+    public static void saveBatchId(String batchId)
+    {
+         newBatchId = batchId;
+    }
+    public static String getBatchId() { return newBatchId; }
+
 }
