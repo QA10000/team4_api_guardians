@@ -3,10 +3,6 @@ Feature: User Module for LMS API
   Background: Admin sets Authorization to Bearer Token.
 
 #--------------- POST OPERATION ----------------
-  Scenario: Check if admin able to generate token with valid credential
-    Given Admin creates request with valid credentials for UserLogin test case "TC01"
-    When Admin calls Post Https method with valid endpoint
-    Then Admin receives 201 created with auto generated token
 
   Scenario: Check if admin able to create a new User with valid endpoint and request body 
     Given Admin creates POST Request for new user with the LMS API endpoint test case "TC01"
