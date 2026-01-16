@@ -11,7 +11,7 @@ public class TestContext {
     private String contentType;
     private String expectedStatus;
 
-    public Response getLastResponse() {
+     public Response getLastResponse() {
         return lastResponse;
     }
 

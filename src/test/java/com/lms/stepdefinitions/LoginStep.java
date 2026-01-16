@@ -5,14 +5,14 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 
-import com.lms.api.LoginService;
+import com.lms.ObjectRepo.LoginService;
 import com.lms.utils.TestContext;
 
-public class LoginSteps {
+public class LoginStep {
 
     private final LoginService loginService;
 
-    public LoginSteps(TestContext context) {
+    public LoginStep(TestContext context) {
         this.loginService = new LoginService(context);
     }
 
@@ -171,103 +171,104 @@ public class LoginSteps {
         loginService.makeForgotPwdRequestWithMethod("POST");
     }
 
+
     @Given("Admin sets authorization to bearer Token with token")
     public void Admin_sets_authorization_to_bearer_Token_with_token() {
-        
+        loginService.setAuthorizationBearer();
+    }
+
+    @Given("Admin creates request for logout for UserLogin test case {string}")
+    public void Admin_creates_request_for_logout_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadLoginData(testCaseId);
     }
 
     @When("Admin calls Get Https method with valid endpoint")
     public void Admin_calls_Get_Https_method_with_valid_endpoint() {
-        // Write code here that turns the phrase above into concrete actions
+        loginService.makeLogoutRequest();
     }
 
     @Given("Admin creates request for logout without token for UserLogin test case {string}")
-    public void Admin_creates_request_for_logout_without_token_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
-    }
-
-    @Given("Admin creates request for logout for UserLogin test case {string}")
-    public void Admin_creates_request_for_logout_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creates_request_for_logout_without_token_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadLoginData(testCaseId);
     }
 
     @Then("Admin receives {int} Not found")
-    public void Admin_receives_Not_found(int i) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_receives_Not_found(int expectedStatusCode) {
+        loginService.assertStatusCode(expectedStatusCode);
     }
 
     @When("Admin calls Get Https method with invalid baseURL")
     public void Admin_calls_Get_Https_method_with_invalid_baseURL() {
-        // Write code here that turns the phrase above into concrete actions
+        loginService.makeGetRequestWithInvalidBaseURL();
     }
 
     @Then("Admin receives {int} ok and response with {string}")
-    public void Admin_receives_ok_and_response_with(int i, String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_receives_ok_and_response_with(int expectedStatusCode, String message) {
+        loginService.assertStatusCodeWithMessage(expectedStatusCode, message);
     }
 
     @When("Admin calls Get Https method with invalid endpoint")
     public void Admin_calls_Get_Https_method_with_invalid_endpoint() {
-        // Write code here that turns the phrase above into concrete actions
+        loginService.makeGetRequestWithInvalidEndpoint();
     }
 
     @Given("Admin creates request for logout after token expiration for UserLogin test case {string}")
-    public void Admin_creates_request_for_logout_after_token_expiration_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creates_request_for_logout_after_token_expiration_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadLoginData(testCaseId);
     }
 
     @When("Admin calls POST Https method with invalid endpoint")
     public void Admin_calls_POST_Https_method_with_invalid_endpoint() {
-        // Write code here that turns the phrase above into concrete actions
+        loginService.makePostRequestWithInvalidEndpoint();
     }
 
     @Then("Admin receives {int} ok and response with {string} and true")
-    public void Admin_receives_ok_and_response_with_and_true(int i, String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_receives_ok_and_response_with_and_true(int expectedStatusCode, String message) {
+        loginService.assertStatusCodeWithMessageAndSuccess(expectedStatusCode, message);
     }
 
     @Given("Admin creaes request with valid email and new password for UserLogin test case {string}")
-    public void Admin_creaes_request_with_valid_email_and_new_password_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creaes_request_with_valid_email_and_new_password_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadResetPasswordData(testCaseId);
     }
 
     @Given("Admin creaes request with valid email and old password for UserLogin test case {string}")
-    public void Admin_creaes_request_with_valid_email_and_old_password_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creaes_request_with_valid_email_and_old_password_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadResetPasswordData(testCaseId);
     }
 
     @Then("Admin receives {int} Bad request response with {string}")
-    public void Admin_receives_Bad_request_response_with(int i, String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_receives_Bad_request_response_with(int expectedStatusCode, String message) {
+        loginService.assertStatusCodeWithResponseMessage(expectedStatusCode, message);
     }
 
     @Given("Admin creaes request new password with invalid email for UserLogin test case {string}")
-    public void Admin_creaes_request_new_password_with_invalid_email_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creaes_request_new_password_with_invalid_email_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadResetPasswordData(testCaseId);
     }
 
     @Then("Admin receives {int} Method not Allowed")
-    public void Admin_receives_Method_not_Allowed(int i) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_receives_Method_not_Allowed(int expectedStatusCode) {
+        loginService.assertStatusCode(expectedStatusCode);
     }
 
     @When("Admin calls GET Https method with valid endpoint")
     public void Admin_calls_GET_Https_method_with_valid_endpoint() {
-        // Write code here that turns the phrase above into concrete actions
+        loginService.makeLogoutRequest();
     }
 
     @Given("Admin creaes request with valid data and invalid content type for UserLogin test case {string}")
-    public void Admin_creaes_request_with_valid_data_and_invalid_content_type_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creaes_request_with_valid_data_and_invalid_content_type_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadLoginData(testCaseId);
     }
 
     @When("Admin calls Post Https method with invalid baseURL")
     public void Admin_calls_Post_Https_method_with_invalid_baseURL() {
-        // Write code here that turns the phrase above into concrete actions
+        loginService.makeRequestWithInvalidBaseURL();
     }
 
     @Given("Admin creaes request new password with special characters for UserLogin test case {string}")
-    public void Admin_creaes_request_new_password_with_special_characters_for_UserLogin_test_case(String s) {
-        // Write code here that turns the phrase above into concrete actions
+    public void Admin_creaes_request_new_password_with_special_characters_for_UserLogin_test_case(String testCaseId) {
+        loginService.loadResetPasswordData(testCaseId);
     }
 }

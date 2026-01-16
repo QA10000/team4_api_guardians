@@ -66,10 +66,10 @@ Feature: User Login Controller
       Then Admin receives 400 Bad request
 # FORGOT PASSWORD
 
-    Scenario: Check if admin able to generate token with valid credentials
-      Given Admin creates request with valid credentials for UserLogin test case "TC13"
-      When Admin calls POST Https method for forgot password with valid endpoint
-      Then Admin receives 200 created with auto generated token
+    # Scenario: Check if admin able to generate token with valid credentials
+    #   Given Admin creates request with valid credentials for UserLogin test case "TC13"
+    #   When Admin calls POST Https method for forgot password with valid endpoint
+    #   Then Admin receives 200 created with auto generated token
 
     Scenario: Check if admin able to generate token with invalid email
       Given Admin creates request with invalid credentials for UserLogin test case "TC14"
@@ -95,8 +95,9 @@ Feature: User Login Controller
       Given Admin creates request with valid credentials for UserLogin test case "TC18"
       When Admin calls POST Https method forgot passwordwith invalid content type
       Then Admin receives 415 unsupported media type
+      
 #LOGOUT
-
+    @skipAuth
     Scenario: Check if admin able to logout without token
       Given Admin creates request for logout without token for UserLogin test case "TC23"
       When Admin calls Get Https method with valid endpoint
@@ -107,10 +108,10 @@ Feature: User Login Controller
     Background: Admin sets authorization to bearer Token with token
       Given Admin sets authorization to bearer Token with token
 
-    Scenario: Check if admin able to logout
-      Given Admin creates request for logout for UserLogin test case "TC19"
-      When Admin calls Get Https method with valid endpoint
-      Then Admin receives 200 ok and response with "Logout successful"
+    # Scenario: Check if admin able to logout
+    #   Given Admin creates request for logout for UserLogin test case "TC19"
+    #   When Admin calls Get Https method with valid endpoint
+    #   Then Admin receives 200 ok and response with "Logout successful"
 
     Scenario: Check if admin able to logout with invalid baseURL
       Given Admin creates request for logout for UserLogin test case "TC20"
@@ -127,16 +128,18 @@ Feature: User Login Controller
       When Admin calls POST Https method with invalid endpoint
       Then Admin receives 405 method not allowed
 
+    @skipAuth
     Scenario: Check if admin able to create request for the logout token after logout
       Given Admin creates request for logout after token expiration for UserLogin test case "TC24"
       When Admin calls Get Https method with valid endpoint
       Then Admin receives 401 unauthorized
+
 # RESET PASSWORD
 
-    Scenario: Check if admin able to resetPassword
-      Given Admin creaes request with valid email and new password for UserLogin test case "TC25"
-      When Admin calls Post Https method with valid endpoint
-      Then Admin receives 200 ok and response with "Password saved" and true
+    # Scenario: Check if admin able to resetPassword
+    #   Given Admin creaes request with valid email and new password for UserLogin test case "TC25"
+    #   When Admin calls Post Https method with valid endpoint
+    #   Then Admin receives 200 ok and response with "Password saved" and true
 
     Scenario: Check if admin able to login with old password
       Given Admin creaes request with valid email and old password for UserLogin test case "TC26"

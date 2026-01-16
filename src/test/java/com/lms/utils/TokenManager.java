@@ -1,8 +1,7 @@
 package com.lms.utils;
 
-public class SesionManager {
+public class TokenManager {
     private static String authToken;
-    
 
     public static void saveToken(String token) {
         authToken = token;

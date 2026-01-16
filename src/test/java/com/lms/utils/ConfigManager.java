@@ -21,7 +21,12 @@ public class ConfigManager {
         }
     }
 
-    public static String get(String key) {
+        public static String get(String key) {
         return properties.getProperty(key);
     }
+
+
+public static String getBaseUrl() {
+    return get("baseUrl");
+}
 }
