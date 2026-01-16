@@ -6,6 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.lms.pojo.LoginRequest;
 import com.lms.utils.ConfigManager;
 import com.lms.utils.ExcelReader;
@@ -61,9 +64,13 @@ public class LoginService {
         try {
             Response response = RestAssuredUtil.makeRequest(method, context.getContentType(), loginRequest,
                     context.getEndPoint());
+
+                    System.out.println("Response is : " +response.asString());
+
             context.setLastResponse(response);
         } catch (Exception e) {
             System.out.println("Error: Failed to call " + method + " HTTPS method.");
+            context.setLastResponse(null);
         }
     }
 
@@ -91,6 +98,8 @@ public class LoginService {
     }
 
     public void assertStatusCode(Integer expectedStatusCode) {
+        assertNotNull("Response should not be null", context.getLastResponse());
+        System.out.println("Response is "+context.getLastResponse().getBody());
         assertEquals("Expected " + expectedStatusCode + " status code",
                 expectedStatusCode.intValue(), context.getLastResponse().statusCode());
     }
@@ -102,10 +111,16 @@ public class LoginService {
     }
 
     public void assertStatusCodeWithMessage(Integer expectedStatusCode, String expectedMessage) {
-        assertEquals("Expected " + expectedMessage + " message",
-                expectedMessage, context.getLastResponse().getStatusLine());
+        assertNotNull("Response should not be null", context.getLastResponse());
         assertEquals("Expected " + expectedStatusCode + " status code",
                 expectedStatusCode.intValue(), context.getLastResponse().statusCode());
+        // Try to extract message from JSON body first, otherwise use error message
+        String actualMessage = context.getLastResponse().jsonPath().getString("message");
+        if (actualMessage == null || actualMessage.isEmpty()) {
+            actualMessage = context.getLastResponse().jsonPath().getString("error");
+        }
+        assertEquals("Expected " + expectedMessage + " message",
+                expectedMessage, actualMessage);
     }
 
     public void assertStatusCodeWithJsonMessage(Integer expectedStatusCode, String message) {
@@ -123,13 +138,14 @@ public class LoginService {
             context.setLastResponse(response);
         } catch (Exception e) {
             System.out.println("Error: Failed to call " + method + " HTTPS method.");
+            context.setLastResponse(null);
         }
     }
 
     public void setAuthorizationBearer() {
         if (TokenManager.hasToken()) {
             String token = TokenManager.getToken();
-    //        RestAssuredUtil.setAuthorizationHeader(token);
+
         }
     }
 
@@ -197,5 +213,17 @@ public class LoginService {
         assertEquals("Expected " + expectedStatusCode + " status code",
                 expectedStatusCode.intValue(), context.getLastResponse().statusCode());
         assertEquals("Expected message in response", expectedMessage, context.getLastResponse().jsonPath().getString("message"));
+    }
+
+    public void assertInvalidrequestError(Integer expectedStatusCode) throws AssertionError {
+        // For invalid base URL, we expect the request to fail or return an error
+        // If response is null, that means the request failed (which is expected)
+        if (context.getLastResponse() == null) {
+            // This is expected - invalid URL should cause connection error
+            return;
+        }
+        // If we do get a response, check the status code
+        assertEquals("Expected " + expectedStatusCode + " status code",
+                expectedStatusCode.intValue(), context.getLastResponse().statusCode());
     }
 }

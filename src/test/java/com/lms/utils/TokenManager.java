@@ -3,8 +3,6 @@ package com.lms.utils;
 public class TokenManager {
     //LOGIN Variable
     private static String authToken;
-    private static String newBatchId;
-
 
     //User Variable
     private static String newUserId;

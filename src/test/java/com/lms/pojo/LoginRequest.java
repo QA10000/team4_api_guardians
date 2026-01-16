@@ -1,7 +1,10 @@
 package com.lms.pojo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginRequest {
+
     @JsonProperty("userLoginEmailId")
     private String userLoginEmailId;
 
@@ -30,5 +33,5 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
+
