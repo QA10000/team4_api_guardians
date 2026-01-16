@@ -1,4 +1,4 @@
-package com.lms.api;
+package com.lms.ObjectRepo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
