@@ -76,9 +76,7 @@ public class UserStep {
 	public void admin_sends_https_request_to_get_all_user_with_role() {
 		objUserService.getAllUser_withRole();
 	}
-	
-	
-	
+
 /*  put op */
 	
 	@Given("Admin creates PUT Request {string}")
@@ -118,10 +116,46 @@ public class UserStep {
 	public void admin_sends_https_request_and_request_body_with_mandatory_fields_mandatory_role_id_and_role_status() {
 		objUserService.putUserRequest_ByRoleId();
 	}
+	
+	@When("Admin sends HTTPS Request  and requesdUt Body  \\(missing mandatory fields)")
+	public void admin_sends_https_request_and_requesd_ut_body_missing_mandatory_fields() {
+	  
+	}
 
+	@Then("Admin receives {int} Ok Status with response message {string}")
+	public void admin_receives_ok_status_with_response_message(Integer expectedStatusCode, String expectedMessage) {
+		objUserService.assertStatusCodeWithMessage(expectedStatusCode,expectedMessage);
+	}
+
+	@Given("Admin creates DELETE Request for the LMS API endpoint  and  valid admin ID test case {string}")
+	public void admin_creates_delete_request_for_the_lms_api_endpoint_and_valid_admin_id_test_case(String testCaseId) {
+		objUserService.loadUserData(testCaseId);
+	}
+
+	@When("Admin sends HTTPS Request to delete your by valid user ID")
+	public void admin_sends_https_request_to_delete_your_by_valid_user_id() {
+	  
+		objUserService.DeleteUser_ByUserId();
+	}
+
+	@Then("Admin receives {int} Ok status with message")
+	public void admin_receives_ok_status_with_message(Integer expectedStatusCode) {
+		objUserService.assertStatusCode(expectedStatusCode);
+	}
+
+	@Given("Admin creates DELETE Request for the LMS API endpoint  and  invalid \\{admin ID} test case {string}")
+	public void admin_creates_delete_request_for_the_lms_api_endpoint_and_invalid_test_case(String testCaseId) {
+		objUserService.loadUserData(testCaseId);
+	}
+
+	@When("Admin sends HTTPS Request to delete your by Invalid user ID")
+	public void admin_sends_https_request_to_delete_your_by_invalid_user_id() {
+		objUserService.DeleteUser_ByInvalidUserId();
+		
+	}
 	@Then("Admin receives {int} Ok Status with response message  {string}")
-	public void admin_receives_ok_status_with_response_message(Integer expectedstatus, String expectedmsg) {
-		objUserService.assertStatusCodeWithMessage(expectedstatus, expectedmsg);
+	public void admin_receives_ok_status_with_response_message1(Integer expectedStatusCode, String expectedMessage) {
+		objUserService.assertStatusCodeWithMessage(expectedStatusCode,expectedMessage);
 	}
 
 	
