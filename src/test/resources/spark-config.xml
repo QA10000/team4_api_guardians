@@ -1,0 +1,11 @@
+<extentreports>
+  <configuration>
+    <theme>standard</theme>
+    <encoding>utf-8</encoding>
+    <protocol>https</protocol>
+    <timelineEnabled>true</timelineEnabled>
+    <offlineMode>true</offlineMode>
+    <documentTitle>Extent Report</documentTitle>
+    <reportName>LMS Automation Test Report</reportName>
+  </configuration>
+</extentreports>

@@ -2,19 +2,17 @@ package com.lms.utils;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
 public class RestAssuredUtil {
-    public static Response makeRequest(String method, String contentType, Object body, String endpoint) {
-        RequestSpecification req = RestAssured.given();
 
+    public static Response makeRequest(String method, String contentType, Object body, String endpoint) {
+        var req = RestAssured.given();
         if (contentType != null && !contentType.isEmpty()) {
             req = req.contentType(contentType);
         }
         if (body != null) {
             req = req.body(body);
         }
-
         if (method.equalsIgnoreCase("POST")) {
             return req.post(endpoint);
         } else if (method.equalsIgnoreCase("GET")) {
@@ -29,5 +27,4 @@ public class RestAssuredUtil {
             throw new IllegalArgumentException("HTTP method not supported: " + method);
         }
     }
-
 }

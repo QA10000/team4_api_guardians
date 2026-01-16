@@ -18,6 +18,7 @@ public class LoginStep {
 
     @Given("admin sets no Authorization to Bearer Token")
     public void admin_sets_no_Authorization_to_Bearer_Token() {
+
     }
 
     @Given("Admin creates request with valid credentials for UserLogin test case {string}")
@@ -50,7 +51,12 @@ public class LoginStep {
         loginService.makeRequestWithInvalidBaseURL();
     }
 
-    @Then("Admin receives {int} bad request")
+    @Then("Admin receives {int} bad request for invalid baseUrl")
+    public void admin_receives_bad_request_for_invalif_baseurl(Integer expectedStatusCode) {
+        loginService.assertInvalidrequestError(expectedStatusCode);
+    }
+
+     @Then("Admin receives {int} bad request")
     public void admin_receives_bad_request(Integer expectedStatusCode) {
         loginService.assertStatusCode(expectedStatusCode);
     }
@@ -270,5 +276,10 @@ public class LoginStep {
     @Given("Admin creaes request new password with special characters for UserLogin test case {string}")
     public void Admin_creaes_request_new_password_with_special_characters_for_UserLogin_test_case(String testCaseId) {
         loginService.loadResetPasswordData(testCaseId);
+    }
+
+    @Then("Admin receives {int} Not found for invalid baseUrl")
+    public void Admin_receives_Not_found_for_invalid_baseUrl(int expectedStatusCode) {
+        loginService.assertInvalidrequestError(expectedStatusCode);
     }
 }
