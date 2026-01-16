@@ -1,8 +1,14 @@
-package com.lms.ObjectRepo;
+package com.lms.api;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lms.pojo.LoginRequest;
+import com.lms.pojo.SkillRequest;
 import com.lms.pojo.UserRequest;
 import com.lms.utils.ConfigManager;
 import com.lms.utils.ExcelReader;
@@ -151,6 +157,25 @@ public class UserService {
 
 	}
 
+	public void putUser_ByInvalidUserId() {
+
+		UserRequest objUserReq = new UserRequest(context.getuserId());
+
+		Response response = RestAssuredUtil.makeRequest("put", context.getContentType(), objUserReq,
+				context.getEndPoint());
+		context.setLastResponse(response);
+
+		if (response.statusCode() == 200) {
+
+			String userId = context.getLastResponse().jsonPath().getString("user.userId");
+			String userName = context.getLastResponse().jsonPath().getString("user.userName");
+
+			assertNotNull(userId, "User Id is missing in response");
+			assertNotNull(userName, "User Name is missing in response");
+		}
+
+	}
+
 	public void putUserRequest_ByUserId() {
 
 		UserRequest objUserReq = new UserRequest(TokenManager.getUserId());
@@ -186,6 +211,24 @@ public class UserService {
 			assertNotNull(roleId, "role Id is missing in response");
 			assertNotNull(rolenameName, "role Name is missing in response");
 		}
+
+	}
+
+	public void putUserRequest_ByProgramId() {
+
+		UserRequest objUserReq = new UserRequest(TokenManager.getProgramId());
+
+		Response response = RestAssuredUtil.makeRequest("PUT", context.getContentType(), objUserReq,
+				context.getEndPoint());
+		context.setLastResponse(response);
+
+		if (response.statusCode() == 200) {
+
+			String programId = context.getLastResponse().jsonPath().getString("program.programId");
+			assertNotNull(programId, "role Id is missing in response");
+
+		}
+
 	}
 
 	public void assertStatusCode(Integer expectedStatusCode) {
@@ -199,4 +242,41 @@ public class UserService {
 		assertEquals("Expected " + expectedStatusCode + " status code", expectedStatusCode.intValue(),
 				context.getLastResponse().statusCode());
 	}
+
+	public void DeleteUser_ByInvalidUserId() {
+		
+		UserRequest objUserReq = new UserRequest(context.getuserId());
+
+		Response response = RestAssuredUtil.makeRequest("DELETE", context.getContentType(), objUserReq,
+				context.getEndPoint());
+		context.setLastResponse(response);
+
+		if (response.statusCode() == 200) {
+
+			String userId = context.getLastResponse().jsonPath().getString("user.userId");
+
+			assertNotNull(userId, "User Id is missing in response");
+		}
+	
+	
+	}
+	public void DeleteUser_ByUserId() {
+
+		UserRequest objUserReq = new UserRequest(TokenManager.getUserId());
+
+		Response response = RestAssuredUtil.makeRequest("PUT", context.getContentType(), objUserReq,
+				context.getEndPoint());
+		context.setLastResponse(response);
+
+		if (response.statusCode() == 200) {
+
+			String userId = context.getLastResponse().jsonPath().getString("user.roleId");
+
+			assertNotNull(userId, "role Id is missing in response");
+		}
+
+	}
+	
 }
+
+	
