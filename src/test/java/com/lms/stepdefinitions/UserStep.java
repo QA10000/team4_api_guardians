@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import com.lms.api.UserService;
+import com.lms.ObjectRepo.UserService;
 import com.lms.utils.TestContext;
 
 public class UserStep {

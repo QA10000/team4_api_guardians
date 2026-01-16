@@ -134,7 +134,7 @@ public class UserService {
 
 	public void getUser_ByInvalidUserId() {
 
-		UserRequest objUserReq = new UserRequest(context.getuserId());
+		UserRequest objUserReq = new UserRequest(TokenManager.getUserId());
 
 		Response response = RestAssuredUtil.makeRequest("GET", context.getContentType(), objUserReq,
 				context.getEndPoint());
@@ -198,5 +198,15 @@ public class UserService {
 				context.getLastResponse().getStatusLine());
 		assertEquals("Expected " + expectedStatusCode + " status code", expectedStatusCode.intValue(),
 				context.getLastResponse().statusCode());
+	}
+
+	public void putUser_ByInvalidUserId() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'putUser_ByInvalidUserId'");
+	}
+
+	public void putUserRequest_ByProgramId() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'putUserRequest_ByProgramId'");
 	}
 }
